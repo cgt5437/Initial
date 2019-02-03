@@ -1,30 +1,75 @@
 <?php
 
-session_start();
-/* DATABASE CONFIGURATION */
-define('DB_SERVER', 'localhost');
-define('DB_USERNAME', 'username');
-define('DB_PASSWORD', 'password');
-define('DB_DATABASE', 'databasename');
-define("BASE_URL", "http://localhost/phpmyadmin/index.php?lang=en");
+class User extends Dbh{
 
-function getDB() 
-{
-$dbhost=DB_SERVER;
-$dbuser=DB_USERNAME;
-$dbpass=DB_PASSWORD;
-$dbname=DB_DATABASE;
-try {
-$dbConnection = new PDO("mysql:host=$dbhost;dbname=$dbname", $dbuser, $dbpass); 
-$dbConnection->exec("set names utf8");
-$dbConnection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-return $dbConnection;
-}
-catch (PDOException $e) {
-echo 'Connection failed: ' . $e->getMessage();
+	public function getFirstN(){
+
+
+	
+	$stmt = $this->connect()->query("SELECT * FROM users");
+
+	while($row = $stmt->fetch())
+	{
+
+		echo $row['firstN'];
+		
+
+	}
 }
 
+
+	public function getUserInfoCarefully(){
+
+
+
+
+	}
 }
 
-pgsql:host=$dbhost;port=5432;dbname=$dbname;$dbuser, $dbpass
+
+?>
+
+
+
+
+<?php
+
+
+class Dbh {
+private $servername;
+private $username;
+private $password;
+private $dbname;
+private $charset;
+
+public function connect(){
+	$this->servername = "localhost";
+	$this->username = "root";
+	$this->password = "";
+	$this->dbname = "hwfive";
+	$this->charset = "utf8mb4";
+
+	try {
+	$dsn = "mysql:host=".$this->servername.";dbname=".$this->dbname.";charset".$this->charset;
+	
+	$pdo = new PDO($dsn,$this->username, $this->password );
+	return $pdo;
+	$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    echo "Connected successfully"; 
+    }
+catch(PDOException $e)
+    {
+    echo "Connection failed: " . $e->getMessage();
+    }
+}
+
+
+}
+
+
+	
+	echo $fname;
+
+
+
 ?>
